@@ -32,19 +32,20 @@ const Navigation = ({
 
   return (
     <header className="shadow-lg shadow-gray-100">
-      <div className="py-5 container max-w-screen-sm mx-auto flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl cursor-pointer">
+      <div className="flex py-4 px-6 border-b border-gray-200">
+        <Link href="/" className="font-bold text-xl cursor-pointer mr-auto">
           Naotech Academy
         </Link>
 
-        <div className="text-sm font-bold">
+        <div className="flex space-x-4">
           {session ? (
-            <div className="flex items-center space-x-5">
-              <Link href="/settings/profile">
-                <div className="relative w-10 h-10">
+            <div className="flex items-center space-x-5 ml-auto">
+              <p>ログイン中</p>
+              <Link href="/settings/profile" className='ml-auto space-x-4'>
+                <div className="relative w-10 h-10 ml-auto">
                   <Image
                     src={profile && profile.avatar_url ? profile.avatar_url : FirstImage}
-                    className="rounded-full object-cover"
+                    className="flex-item text-center w-24 h-24 flex items-center justify-center"
                     alt="avatar"
                     fill
                   />

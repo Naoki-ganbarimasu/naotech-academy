@@ -1,12 +1,12 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import SupabaseListener from './components/supabase-listener'
+import SupabaseListener from './components/Header'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Supabase Auth',
-  description: 'Supabase Auth',
+  title: 'Lesson講座販売アプリケーション',
+  description: '動画レッスンを販売するアプリケーションポートフォリオ',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
