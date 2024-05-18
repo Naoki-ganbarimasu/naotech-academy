@@ -83,6 +83,12 @@ export type Database = {
         }
         Relationships: []
       }
+      premium_content: {
+        Row: {
+          id: number;
+          video_url: string;
+        };
+      };
     }
     Views: {
       [_ in never]: never
