@@ -4,7 +4,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material'; 
-
+import annual from "./annual.png"
+import month from "./month.png"
 
 const PricingPage = () => {
   return (
@@ -12,19 +13,28 @@ const PricingPage = () => {
       
       <Card>
       <CardActionArea>
-        <CardMedia/>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <CardMedia
+            component="img"
+            height="40"
+            image="/month.jpg" // Correct path from the root directory
+            alt="month price"
+            className=''
+          />
+          <CardContent>
+          <Typography gutterBottom variant="h4" component="div">
             月額プラン
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            <p>Month</p>
+          <Typography gutterBottom  component="div">
+            Month
+          </Typography>
+          <Typography variant="h5" color="text.secondary">
+            2500/月
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+          サブスクリプション契約をする
         </Button>
       </CardActions>
     </Card>
