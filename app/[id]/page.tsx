@@ -4,7 +4,7 @@ import { SupabaseClient, createServerComponentClient } from '@supabase/auth-help
 import { cookies } from "next/headers"
 import { YouTubeEmbed } from "@next/third-parties/google"
 
-const getAllLessons = async (
+const getDetailLesson = async (
     id: number,
     supabase: SupabaseClient<Database>
 ) => {
@@ -34,7 +34,7 @@ return video;
 const LessonDatailLessoon = async ({params}: {params: {id: number}}) => {
 const supabase = createServerComponentClient<Database>({ cookies })
 const [lesson, video] = await Promise.all([
-  await getAllLessons(params.id, supabase),
+  await getDetailLesson(params.id, supabase),
   await getPremiumContent(params.id, supabase)
 ])
 

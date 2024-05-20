@@ -40,6 +40,7 @@ const Navigation = ({
         <div className="flex space-x-4">
           {session ? (
             <div className="flex items-center space-x-5 ml-auto">
+              <Link href="/pricing">料金プラン</Link>
               <p>ログイン中</p>
               <Link href="/settings/profile" className='ml-auto space-x-4'>
                 <div className="relative w-10 h-10 ml-auto">
