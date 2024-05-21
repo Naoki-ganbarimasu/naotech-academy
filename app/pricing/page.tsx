@@ -3,12 +3,11 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material'; 
+import { Button, CardActionArea, CardActions } from '@mui/material';
 import Stripe from 'stripe';
-import {cookies} from "next/headers"
+import { cookies } from "next/headers";
 import { SupabaseClient, createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { profile } from 'console';
-import { Database } from '@/lib/database.types';
+import SubscriptionButton from '../components/checkout/SubscriptionButton';
 
 interface Plan {
     id: string;
@@ -18,111 +17,86 @@ interface Plan {
     currency: string;
 }
 
-
 const getAllPlans = async (): Promise<Plan[]> => {
-
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+    const plansList = await stripe.prices.list({ expand: ['data.product'] });
 
-    const {data: planslist }= await stripe.plans.list();
-    const plans = await Promise.all(
-        planslist.map( async (plan) => {
-            const product = await stripe.products.retrieve(plan.product as string);
-            
-            return {
-                id: plan.id,
-                name: product.name,
-                price: plan.amount_decimal,
-                interval: plan.interval,
-                currency: plan.currency,
-            }
-    }))
+    const plans = plansList.data.map(plan => ({
+        id: plan.id,
+        name: (plan.product as Stripe.Product).name,
+        price: plan.unit_amount ? (plan.unit_amount / 100).toFixed(2) : null,
+        interval: plan.recurring?.interval ?? null,
+        currency: plan.currency,
+    }));
 
-    const sortedPlans = plans.sort((a, b)=> parseInt(a.price!) - parseInt(b.price!))
+    const sortedPlans = plans.sort((a, b) => parseFloat(a.price!) - parseFloat(b.price!));
 
     return sortedPlans;
-}
+};
 
 const getProfileData = async (supabase: SupabaseClient) => {
-    const { data: profiles, error } = await supabase
-      .from('profiles')
-      .select('*');
-  
-    if (error) {
-      console.error('Error fetching profile data:', error);
-      return null;
-    }
-  
-    if (profiles.length === 0) {
-      console.error('No profiles found');
-      return null;
-    }
-  
-    // 最初の行を返す（または必要に応じて特定のロジックを追加）
-    return profiles[0];
-  }
+    const { data: profiles, error } = await supabase.from('profiles').select('*');
 
+    if (error) {
+        console.error('Error fetching profile data:', error);
+        return null;
+    }
+
+    if (profiles.length === 0) {
+        console.error('No profiles found');
+        return null;
+    }
+
+    return profiles[0];
+};
 
 const PricingPage = async () => {
-    const supabase = createServerComponentClient({cookies});
-    const {data: user} = await supabase.auth.getSession();
+    const supabase = createServerComponentClient({ cookies });
+    const { data: { session } } = await supabase.auth.getSession();
+    const profiles = await getProfileData(supabase);
 
-    const [plans,profiles] = await Promise.all([
-        await getAllPlans(),
-        await getProfileData(supabase)
-      ])
+    const [plans] = await Promise.all([getAllPlans()]);
 
+    const showSubscribeButton = !!session && profiles && !profiles.is_subscribed;
+    const showCreateAccountButton = !session;
+    const showManageSubscription = !!session && profiles && profiles.is_subscribed;
 
-
-    const showSubscribeBotton =!!user.session && profiles && !profiles.is_subscribed;
-    const showCreateAccountButton = !user.session;
-    const showManageSubscription = !!user.session && profiles && profiles.is_subscribed;
-
-  return (
-  <div className='w-full max-w-3x1 flex ml-10 mxauto py-16 justify-around'>
-    {plans.map((plan) => (
-           <Card className='shadow-md' key={plan.id} style={{ margin: '16px' }}>
-           <CardActionArea>
-               <CardMedia
-                 component="img"
-                 style={{ height: '80', width: 'auto' }}
-                 // height="300"
-                 image={plan.interval === 'month' ? "/month.jpg" : "/annual.jpg"}
-                 alt={`${plan.name} price`}
-                 className=''
-               />
-               <CardContent>
-               <Typography gutterBottom variant="h4" component="div">
-                 {plan.name} プラン
-               </Typography>
-               <Typography gutterBottom  component="div">
-                 {plan.interval}
-               </Typography>
-               <Typography variant="h5" color="text.secondary">
-                 {plan.price}/{plan.interval}
-               </Typography>
-             </CardContent>
-           </CardActionArea>
-           <CardActions>
-             {showSubscribeBotton &&
-              <Button size="small" color="primary">
-               サブスクリプション契約をする
-             </Button>
-             }
-              {showCreateAccountButton &&
-              <Button size="small" color="primary">
-               ログインする
-             </Button>
-             }
-               {showManageSubscription &&
-              <Button size="small" color="primary">
-               サブスクリプション管理をする
-             </Button>
-             }
-             
-           </CardActions>
-         </Card>
-    ))}
-       </div>  
-)}
+    return (
+        <div className='w-full max-w-3xl flex ml-10 mx-auto py-16 justify-around'>
+            {plans.map((plan) => (
+                <Card className='shadow-md' key={plan.id} style={{ margin: '16px' }}>
+                    <CardActionArea>
+                        <CardMedia
+                            component="img"
+                            style={{ height: 80, width: 'auto' }}
+                            image={plan.interval === 'month' ? "/month.jpg" : "/annual.jpg"}
+                            alt={`${plan.name} price`}
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant="h4" component="div">
+                                {plan.name} プラン
+                            </Typography>
+                            <Typography gutterBottom component="div">
+                                {plan.interval}
+                            </Typography>
+                            <Typography variant="h5" color="text.secondary">
+                                {plan.price}/{plan.interval}
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                        {showSubscribeButton && <SubscriptionButton planId={plan.id} />}
+                        {showCreateAccountButton && (
+                            <Button size="small" color="primary">
+                                ログインする
+                            </Button>
+                        )}
+                        {showManageSubscription && <SubscriptionButton planId={plan.id} />}
+                    </CardActions>
+                </Card>
+            ))}
+        </div>
+    );
+};
 
 export default PricingPage;
