@@ -8,6 +8,7 @@ import Stripe from 'stripe';
 import { cookies } from "next/headers";
 import { SupabaseClient, createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import SubscriptionButton from '../components/checkout/SubscriptionButton';
+import Link from 'next/link';
 
 interface Plan {
     id: string;
@@ -88,10 +89,12 @@ const PricingPage = async () => {
                         {showSubscribeButton && <SubscriptionButton planId={plan.id} />}
                         {showCreateAccountButton && (
                             <Button size="small" color="primary">
-                                ログインする
+                                <Link href="/auth/login">ログインする</Link>
                             </Button>
                         )}
-                        {showManageSubscription && <SubscriptionButton planId={plan.id} />}
+                        {showManageSubscription && <Button>
+                            <Link href="/dashboard">サブスクリプションを管理する</Link>
+                            </Button>}
                     </CardActions>
                 </Card>
             ))}

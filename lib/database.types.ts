@@ -30,27 +30,62 @@ export type Database = {
         }
         Relationships: []
       }
+      premium_content: {
+        Row: {
+          created_at: string
+          id: number
+          video_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          video_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          video_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "premium_content_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "lesson"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
           email: string
           id: string
+          interval: string | null
           introduce: string | null
+          is_subscribed: boolean | null
           name: string | null
+          stripe_customer: string | null
         }
         Insert: {
           avatar_url?: string | null
           email: string
           id: string
+          interval?: string | null
           introduce?: string | null
+          is_subscribed?: boolean | null
           name?: string | null
+          stripe_customer?: string | null
         }
         Update: {
           avatar_url?: string | null
           email?: string
           id?: string
+          interval?: string | null
           introduce?: string | null
+          is_subscribed?: boolean | null
           name?: string | null
+          stripe_customer?: string | null
         }
         Relationships: [
           {
@@ -83,12 +118,6 @@ export type Database = {
         }
         Relationships: []
       }
-      premium_content: {
-        Row: {
-          id: number;
-          video_url: string;
-        };
-      };
     }
     Views: {
       [_ in never]: never

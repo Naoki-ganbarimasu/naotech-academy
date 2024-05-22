@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import type { Session } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.types'
 import FirstImage from '../components/user_person_profile_avatar_icon_190943.png'
+import { Button } from '@mui/material'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 // ナビゲーション
@@ -27,8 +28,12 @@ const Navigation = ({
       name: session && profile ? profile.name : '',
       introduce: session && profile ? profile.introduce : '',
       avatar_url: session && profile ? profile.avatar_url : '',
+      interval: session && profile ? profile.interval : null, // 追加
+      is_subscribed: session && profile ? profile.is_subscribed : null, // 追加
+      stripe_customer: session && profile ? profile.stripe_customer : null, // 追加
     })
   }, [session, setUser, profile])
+
 
   return (
     <header className="shadow-lg shadow-gray-100">
@@ -37,10 +42,14 @@ const Navigation = ({
           Naotech Academy
         </Link>
 
+        {/* {session && (
+          <Link href={"/dashvoard"} className='ml-4'>ダッシュボード</Link>
+        )} */}
+
         <div className="flex space-x-4">
           {session ? (
             <div className="flex items-center space-x-5 ml-auto">
-              <Link href="/pricing">料金プラン</Link>
+              <Link href="/pricing"　className='ml-4'>料金プラン</Link>
               <p>ログイン中</p>
               <Link href="/settings/profile" className='ml-auto space-x-4'>
                 <div className="relative w-10 h-10 ml-auto">
@@ -55,8 +64,15 @@ const Navigation = ({
             </div>
           ) : (
             <div className="flex items-center space-x-5">
+            <Button>
+              <Link href="/pricing">料金プラン</Link>
+            </Button>
+            <Button>
               <Link href="/auth/login">ログイン</Link>
-              <Link href="/auth/signup">サインアップ</Link>
+            </Button>
+            <Button>
+            <Link href="/auth/signup">サインアップ</Link>
+            </Button>
             </div>
           )}
         </div>
