@@ -1,8 +1,7 @@
 import React from 'react'
-import { Button } from '@mui/material';
 import { SupabaseClient, createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from "next/headers";
-import { profile } from 'console';
+import SubscriptionManagementButton from '../components/checkout/SubscriptionManagementButton';
 
 const getProfileData = async (supabase: SupabaseClient) => {
     const { data: profiles, error } = await supabase.from('profiles').select('*').single();
@@ -30,11 +29,11 @@ const Dashboard = async () => {
   return (
     <div className='w-full max-w-3xl mx-auto py--16 px-8'>
       <h1>ユーザー管理ダッシュボード</h1>
-      <div>
-        <div>
-            {profile?.is_subcribed ? `プラン契約中:${profile.interval}`:"プラン未加入"}
+      <div className='mb-3'>
+        <div className='mb-3'>
+            {profile.is_subscribed ? `プラン契約中:${profile.interval}` : "プラン未加入"}
             </div>
-        <Button variant="contained">ユーザーボタン管理をする</Button>
+            <SubscriptionManagementButton />
       </div>
     </div>
   )

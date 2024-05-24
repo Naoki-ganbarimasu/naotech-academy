@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import type { Session } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.types'
 import FirstImage from '../components/user_person_profile_avatar_icon_190943.png'
-import { Button } from '@mui/material'
+import { Button, Chip } from '@mui/material'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 // ナビゲーション
@@ -50,7 +50,12 @@ const Navigation = ({
           {session ? (
             <div className="flex items-center space-x-5 ml-auto">
               <Link href="/pricing"　className='ml-4'>料金プラン</Link>
-              <p>ログイン中</p>
+              <Chip
+        color="success"
+        label={
+          <span>ログイン中</span>
+        }
+      />
               <Link href="/settings/profile" className='ml-auto space-x-4'>
                 <div className="relative w-10 h-10 ml-auto">
                   <Image

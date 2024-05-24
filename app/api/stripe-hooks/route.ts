@@ -37,15 +37,27 @@ export async function POST(req: NextRequest) {
                 break;
             case 'customer.subscription.deleted':
                 const customerSubscriptionDeleted = event.data.object;
+                await supabase
+                .from("profiles")
+                .update({
+                    is_subscribed: true,
+                    interval: customerSubscriptionDeleted.items.data[0].plan.interval
+                })
+                .eq("stripe_customer", event.data.object.customer);
                 // Then define and call a function to handle the event customer.subscription.deleted
                 break;
             case 'customer.subscription.updated':
-                const customerSubscriptionUpdated = event.data.object;
+                await supabase
+                .from("profiles")
+                .update({
+                    is_subscribed: true,
+                    interval: null,
+                })
+                .eq("stripe_customer", event.data.object.customer);
                 // Then define and call a function to handle the event customer.subscription.updated
                 break;
             // 他のイベントタイプの処理
             default:
-                console.log(`Unhandled event type ${event.type}`);
         }
 
         console.log(event);
