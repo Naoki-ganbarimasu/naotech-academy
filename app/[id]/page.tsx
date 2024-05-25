@@ -49,10 +49,3 @@ const [lesson, video] = await Promise.all([
 }
 
 export default LessonDatailLessoon;
-
-// exists( 
-//   select 1 from profiles
-//   where auth.uid() = profiles.id 
-//   and
-//   profiles.is_subcribed = true
-// )
