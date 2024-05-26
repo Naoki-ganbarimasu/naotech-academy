@@ -41,6 +41,6 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ url: session.url });
     } catch (error) {
         console.error('Error loading portal:', error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error }, { status: 500 });
     }
 }
