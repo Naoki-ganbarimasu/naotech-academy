@@ -36,8 +36,8 @@ export async function GET(
       line_items: [
         {price: priceId, quantity:1},
       ],
-      success_url: 'http://localhost:3000/payment/success', 
-      cancel_url: 'http://localhost:3000/payment/cancelled', 
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success`, 
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancelled`, 
     });
 
 

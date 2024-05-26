@@ -1,21 +1,19 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-import type { Database } from '@/lib/database.types'
-import Link from 'next/link'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import type { Database } from '@/lib/database.types';
+import Link from 'next/link';
 import { 
-  Button,
   Card,
-  CardActions,
   CardContent,
   CardMedia,
   Typography
 } from '@mui/material';
+import Nologin from './components/Nologin';
 
-const supabase = createServerComponentClient<Database>({ cookies })
-
+const supabase = createServerComponentClient<Database>({ cookies });
 const getAllLessons = async () => {
-  const { data: lessons, error: lessonsError } = await supabase.from('lesson').select("*");
-  const { data: whos, error: whosError } = await supabase.from('who').select("*");
+  const { data: lessons, error: lessonsError } = await supabase.from('lesson').select('*');
+  const { data: whos, error: whosError } = await supabase.from('who').select('*');
 
   if (lessonsError) {
     console.error('Error fetching lessons:', lessonsError);
@@ -25,7 +23,7 @@ const getAllLessons = async () => {
   }
 
   return { lessons, whos };
-}
+};
 
 // メインページ
 const Home = async () => {
@@ -34,12 +32,12 @@ const Home = async () => {
   // セッションの取得
   const {
     data: { session },
-  } = await supabase.auth.getSession()
+  } = await supabase.auth.getSession();
 
   return (
-    <div className="text-center text-xl">
+    <div>
       {session ? 
-      <div>
+      <div　className="text-center text-xl">
         <main className="w-full max-w-3xl mx-auto my-16 px-2">
           <div className='flex flex-col gap-5'>
             <div className="border-b border-gray-300 pb-5 mb-5">
@@ -48,14 +46,8 @@ const Home = async () => {
               </Typography>
               <div className="flex justify-center flex-wrap gap-5">
                 {lessons?.map((lesson) => (
-                  <Link href={`/${lesson.id}`} key={lesson.id}>
+                  <Link href={`premiumVideo/${lesson.id}`} key={lesson.id}>
                     <Card sx={{ maxWidth: 345 }}>
-                      <CardMedia
-                        component="img"
-                        alt="lesson image"
-                        height="140"
-                        image="/static/images/cards/contemplative-reptile.jpg"
-                      />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                           {lesson.title}
@@ -75,20 +67,14 @@ const Home = async () => {
               </Typography>
               <div className="flex justify-center flex-wrap gap-5">
                 {whos?.map((who) => (
-                  <Link href={`/${who.id}`} key={who.id}>
+                  <Link href={`freeVideo/${who.id}`} key={who.id}>
                     <Card sx={{ maxWidth: 345 }}>
-                      <CardMedia
-                        component="img"
-                        alt="who image"
-                        height="140"
-                        image="/static/images/cards/contemplative-reptile.jpg"
-                      />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                           {who.title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {who.description}
+                          Description goes here
                         </Typography>
                       </CardContent>
                     </Card>
@@ -98,9 +84,15 @@ const Home = async () => {
             </div>
           </div>
         </main>
-      </div> : <div>未ログイン</div>}
-    </div>
-  )
-}
+      </div> : 
+      <div>
+        <Nologin />
 
-export default Home
+      </div>}
+    </div>
+  );
+};
+
+export default Home;
+
+

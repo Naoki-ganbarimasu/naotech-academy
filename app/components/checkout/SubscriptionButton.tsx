@@ -1,31 +1,3 @@
-// "use client";
-
-// import { Button } from '@mui/material';
-// import React from 'react';
-// import { loadStripe } from "@stripe/stripe-js";
-
-// const SubscriptionButton = ({ planId }: { planId: string }) => {
-//   const processSubscription = async () => {
-
-//       const response = await fetch(
-//         `http://localhost:3000/api/subscription/${planId}`,
-//       );
-
-//       const data = await response.json();
-//       const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
-//       await stripe?.redirectToCheckout({sessionId: data.id})
-//   };
-
-//   return (
-//     <Button onClick={processSubscription}>
-//       サブスクリプション契約をする
-//     </Button>
-//   );
-// };
-
-// export default SubscriptionButton;
-
-
 "use client";
 
 import { Button } from '@mui/material';
@@ -35,7 +7,7 @@ import { loadStripe } from "@stripe/stripe-js";
 const SubscriptionButton = ({ planId }: { planId: string }) => {
   const processSubscription = async () => {
     const response = await fetch(
-      `http://localhost:3000/api/subscription/${planId}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}api/subscription/${planId}`,
     );
 
     const data = await response.json();

@@ -8,7 +8,7 @@ const SubscriptionManagementButton = () => {
     const router = useRouter();
     const loadPortal = async () => { 
         try {
-            const response = await fetch("http://localhost:3000/api/portal");
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/portal`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

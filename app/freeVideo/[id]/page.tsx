@@ -1,20 +1,22 @@
-import React from 'react'
 import { Database } from '@/lib/database.types';
+import { YouTubeEmbed } from "@next/third-parties/google";
 import { SupabaseClient, createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from "next/headers"
-import { YouTubeEmbed } from "@next/third-parties/google"
+import { cookies } from "next/headers";
+import { extractYouTubeVideoId } from "../../utils/extractYoutubeVideoId";
 
 const getDetailLesson = async (
     id: number,
     supabase: SupabaseClient<Database>
 ) => {
-    const {data: lessons}  = await supabase.
-    from('lesson')
+    const {data: whos}  = await supabase.
+    from('who')
     .select("*")
     .eq("id", id)
     .single();
 
-return lessons;
+  
+
+return whos;
 }
 
 const getPremiumContent = async (
@@ -22,30 +24,32 @@ const getPremiumContent = async (
   supabase: SupabaseClient<Database>
 ) => {
   const {data: video}  = await supabase
-  .from("premium_content")
+  .from("free_content")
   .select("video_url")
   .eq("id", id)
   .single();
 
-  console.log(video)
 return video;
 }
 
-const LessonDatailLessoon = async ({params}: {params: {id: number}}) => {
+const WhoDatail = async ({params}: {params: {id: number}}) => {
 const supabase = createServerComponentClient<Database>({ cookies })
 const [lesson, video] = await Promise.all([
   await getDetailLesson(params.id, supabase),
   await getPremiumContent(params.id, supabase)
 ])
 
+const videoId = extractYouTubeVideoId(video?.video_url!) 
+
   
      return (
     <div className='w-full max-w-3xl mx-auto  py-16 px-8'>
       <h1 className='text-3xl mb-6'>{lesson?.title}</h1>
       <p className='mb-6'>{lesson?.description}</p>
-      <YouTubeEmbed height={400} videoid='f_lAEnkn8jI'/>
+      <YouTubeEmbed height={400} videoid={videoId}/>
     </div>
   )
 }
 
-export default LessonDatailLessoon;
+export default WhoDatail;
+

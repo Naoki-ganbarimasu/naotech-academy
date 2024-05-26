@@ -96,7 +96,21 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
+      },
+      free_content: {
+        Row: {
+            video_url: string | null;
+            id: number;
+        };
+        Insert: {
+            video_url?: string | null;
+            id?: number;
+        };
+        Update: {
+            video_url?: string | null;
+            id?: number;
+        };
+    };
       who: {
         Row: {
           created_at: string

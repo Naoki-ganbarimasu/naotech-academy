@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
 
         const session = await stripe.billingPortal.sessions.create({
             customer: stripeCustomerData.stripe_customer,
-            return_url: 'http://localhost:3000/dashboard',
+            return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
         });
 
         return NextResponse.json({ url: session.url });
