@@ -1,8 +1,8 @@
 import { Database } from '@/lib/database.types';
 import { YouTubeEmbed } from "@next/third-parties/google";
-import { SupabaseClient, createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from "next/headers";
+import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { extractYouTubeVideoId } from "../../utils/extractYoutubeVideoId";
+import { supabaseServer } from '@/app/utils/supabaseServer';
 
 const getDetailLesson = async (
     id: number,
@@ -31,7 +31,7 @@ const getPremiumContent = async (
 }
 
 const WhoDetail = async ({ params }: { params: { id: number } }) => {
-    const supabase = createServerComponentClient<Database>({ cookies });
+  const supabase = supabaseServer();
     const [lesson, video] = await Promise.all([
         getDetailLesson(params.id, supabase),
         getPremiumContent(params.id, supabase)

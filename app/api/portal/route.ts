@@ -1,11 +1,10 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import Stripe from "stripe";
+import { supabaseServer } from "@/app/utils/supabaseServer";
 
 export async function GET(req: NextRequest) {
     try {
-        const supabase = createRouteHandlerClient({ cookies });
+        const supabase = supabaseServer();
         const { data: authData, error: authError } = await supabase.auth.getUser();
         if (authError) {
             throw new Error(`Auth error: ${authError.message}`);

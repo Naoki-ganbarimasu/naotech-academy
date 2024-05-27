@@ -1,17 +1,15 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import type { Database } from '@/lib/database.types';
+import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 import { 
   Card,
   CardContent,
-  CardMedia,
   Typography
 } from '@mui/material';
 import Nologin from './components/Nologin';
+import { supabaseServer } from './utils/supabaseServer';
+import { Database } from '@/lib/database.types';
 
-const supabase = createServerComponentClient<Database>({ cookies });
-const getAllLessons = async () => {
+const getAllLessons = async (supabase: SupabaseClient<Database>) => {
   const { data: lessons, error: lessonsError } = await supabase.from('lesson').select('*');
   const { data: whos, error: whosError } = await supabase.from('who').select('*');
 
@@ -27,7 +25,8 @@ const getAllLessons = async () => {
 
 // メインページ
 const Home = async () => {
-  const { lessons, whos } = await getAllLessons();
+  const supabase = supabaseServer();
+  const { lessons, whos } = await getAllLessons(supabase);
 
   // セッションの取得
   const {

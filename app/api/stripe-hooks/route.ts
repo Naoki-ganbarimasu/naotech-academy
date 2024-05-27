@@ -1,12 +1,9 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import {cookies} from "next/headers"
-import { Database } from "@/lib/database.types";
+import { supabaseServer } from "@/app/utils/supabaseServer";
 
 export async function POST(req: NextRequest) {
-    const supabase = createRouteHandlerClient<Database>({cookies});
-    const {data: user} = await supabase.auth.getSession();
+    const supabase = supabaseServer();
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
     const endpointSecret = process.env.STRIPE_SIGNING_SECRET;
@@ -22,7 +19,6 @@ export async function POST(req: NextRequest) {
             endpointSecret!
         );
 
-        // イベントタイプごとの処理
         switch (event.type) {
             case "customer.subscription.created":
                 const customerSubscriptionCreated = event.data.object;
@@ -33,7 +29,7 @@ export async function POST(req: NextRequest) {
                     interval: customerSubscriptionCreated.items.data[0].plan.interval
                 })
                 .eq("stripe_customer", event.data.object.customer);
-                // Then define and call a function to handle the event customer.subscription.created
+           
                 break;
             case 'customer.subscription.deleted':
                 const customerSubscriptionDeleted = event.data.object;
@@ -44,7 +40,7 @@ export async function POST(req: NextRequest) {
                     interval: customerSubscriptionDeleted.items.data[0].plan.interval
                 })
                 .eq("stripe_customer", event.data.object.customer);
-                // Then define and call a function to handle the event customer.subscription.deleted
+            
                 break;
             case 'customer.subscription.updated':
                 await supabase
@@ -54,9 +50,9 @@ export async function POST(req: NextRequest) {
                     interval: null,
                 })
                 .eq("stripe_customer", event.data.object.customer);
-                // Then define and call a function to handle the event customer.subscription.updated
+            
                 break;
-            // 他のイベントタイプの処理
+     
             default:
         }
 

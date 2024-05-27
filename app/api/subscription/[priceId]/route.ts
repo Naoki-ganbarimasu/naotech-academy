@@ -1,47 +1,49 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { NextRequest, NextResponse } from "next/server";
-import {cookies} from "next/headers"
+import { NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe";
-
+import { supabaseServer } from "@/app/utils/supabaseServer";
 
 export async function GET(
     req: NextRequest,
     {params}: {params: {priceId: string}}
 ) {
-    const supabase = createRouteHandlerClient({cookies})
-    const {data} = await supabase.auth.getUser();
-    const user = data.user;
+  const supabase = supabaseServer();
+  const {data} = await supabase.auth.getUser();
+  const user = data.user;
 
-    if (!user) {
-        return NextResponse.json("Unauthorized", {status: 401})
-    }
+  if (!user) {
+    return NextResponse.json("Unauthorized", {status: 401});
+  }
 
-
-    const {data: stripe_customer_data} = await supabase
+  const {data: stripe_customer_data} = await supabase
     .from("profiles")
     .select("stripe_customer")
     .eq("id", user?.id)
     .single();
 
-    const priceId = params.priceId;
+  if (!stripe_customer_data || !stripe_customer_data.stripe_customer) {
+    return NextResponse.json("Stripe customer not found", {status: 404});
+  }
 
-    // const Stripe = require('stripe');
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-    
-    // セッションの作成
+  const priceId = params.priceId;
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+  try {
     const session = await stripe.checkout.sessions.create({
-      customer: stripe_customer_data?.stripe_customer,
+      customer: stripe_customer_data.stripe_customer,
       mode: 'subscription',
       payment_method_types: ['card'],
       line_items: [
-        {price: priceId, quantity:1},
+        {price: priceId, quantity: 1},
       ],
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success`, 
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancelled`, 
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancelled`,
     });
-
 
     return NextResponse.json({
       id: session.id
-    })
+    });
+  } catch (error) {
+    return NextResponse.json({error: error}, {status: 500});
+  }
 }

@@ -1,13 +1,11 @@
 'use server'
 
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
 import Navigation from './navigation'
-import type { Database } from '@/lib/database.types'
+import { supabaseServer } from '../utils/supabaseServer'
 
 // 認証状態の監視
 const SupabaseListener = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const supabase = supabaseServer();
 
   // セッションの取得
   const {

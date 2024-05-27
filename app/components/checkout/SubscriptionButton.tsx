@@ -12,7 +12,7 @@ const SubscriptionButton = ({ planId }: { planId: string }) => {
 
     const data = await response.json();
     
-    console.log('Stripe API Key:', process.env.NEXT_PUBLIC_SUPRITE_KEY); // デバッグ用のログ出力
+    console.log('Stripe API Key:', process.env.NEXT_PUBLIC_SUPRITE_KEY); 
 
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_SUPRITE_KEY!);
     await stripe?.redirectToCheckout({ sessionId: data.id });

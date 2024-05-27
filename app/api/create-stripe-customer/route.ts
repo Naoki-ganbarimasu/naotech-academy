@@ -1,11 +1,9 @@
-import React from 'react'
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { supabaseServer } from '@/app/utils/supabaseServer';
 
 export async function POST(req: NextRequest) {
-    const supabase = createRouteHandlerClient({ cookies });
+    const supabase = supabaseServer();
     const query = req.nextUrl.searchParams.get("API_ROUTE_SECRET");
 
     if (query !== process.env.API_ROUTE_SECRET) {
@@ -59,41 +57,3 @@ export async function POST(req: NextRequest) {
     }
 }
 
-
-
-
-
-
-// import React from 'react'
-// import { NextRequest, NextResponse } from 'next/server'
-// import  Stripe from 'stripe'
-// import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-// import { cookies } from 'next/headers';
-
-
-// export async function POST(req: NextRequest) {
-
-//     const supabase = createRouteHandlerClient({ cookies });
-//     const data = await req.json();
-//     const { id, email } = data;
-
-//     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-//     const customer = await stripe.customers.create({
-//         email,
-//     });
-
-
-//     const {error} = await supabase
-//     .from("profile")
-//     .update({
-//         stripe_customer: customer.id,
-//     }).eq("id", id);
-
-//     console.log(error?.message)
-//     console.log(id, customer.id)
-
-//     return NextResponse.json({
-//         message: `stripe customer created: ${customer.id}`,
-//     })
-// }
-    

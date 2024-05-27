@@ -5,10 +5,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import Stripe from 'stripe';
-import { cookies } from "next/headers";
-import { SupabaseClient, createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import SubscriptionButton from '../components/checkout/SubscriptionButton';
 import Link from 'next/link';
+import { supabaseServer } from '../utils/supabaseServer';
 
 interface Plan {
     id: string;
@@ -52,7 +52,7 @@ const getProfileData = async (supabase: SupabaseClient) => {
 };
 
 const PricingPage = async () => {
-    const supabase = createServerComponentClient({ cookies });
+    const supabase = supabaseServer();
     const { data: { session } } = await supabase.auth.getSession();
     const profiles = await getProfileData(supabase);
 
