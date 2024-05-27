@@ -7,7 +7,7 @@ import { loadStripe } from "@stripe/stripe-js";
 const SubscriptionButton = ({ planId }: { planId: string }) => {
   const processSubscription = async () => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}api/subscription/${planId}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/subscription/${planId}`,
     );
 
     const data = await response.json();
