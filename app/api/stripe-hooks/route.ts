@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
                 .from("profiles")
                 .update({
                     is_subscribed: true,
-                    interval: customerSubscriptionCreated.items.data[0].plan.interval
+                    interval: customerSubscriptionCreated.items.data[0].plan.interval,
                 })
                 .eq("stripe_customer", event.data.object.customer);
            
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
                 .from("profiles")
                 .update({
                     is_subscribed: true,
-                    interval: customerSubscriptionDeleted.items.data[0].plan.interval
+                    interval: customerSubscriptionDeleted.items.data[0].plan.interval,
                 })
                 .eq("stripe_customer", event.data.object.customer);
             
