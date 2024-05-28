@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import Stripe from 'stripe';
-import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { SupabaseClient, Session } from '@supabase/auth-helpers-nextjs';
 import SubscriptionButton from '../components/checkout/SubscriptionButton';
 import Link from 'next/link';
 import { supabaseServer } from '../utils/supabaseServer';
@@ -30,9 +31,7 @@ const getAllPlans = async (): Promise<Plan[]> => {
         currency: plan.currency,
     }));
 
-    const sortedPlans = plans.sort((a, b) => parseFloat(a.price!) - parseFloat(b.price!));
-
-    return sortedPlans;
+    return plans.sort((a, b) => parseFloat(a.price!) - parseFloat(b.price!));
 };
 
 const getProfileData = async (supabase: SupabaseClient) => {
@@ -51,12 +50,31 @@ const getProfileData = async (supabase: SupabaseClient) => {
     return profiles[0];
 };
 
-const PricingPage = async () => {
-    const supabase = supabaseServer();
-    const { data: { session } } = await supabase.auth.getSession();
-    const profiles = await getProfileData(supabase);
+const PricingPage: React.FC = () => {
+    const [plans, setPlans] = useState<Plan[]>([]);
+    const [session, setSession] = useState<Session | null>(null);
+    const [profiles, setProfiles] = useState<any>(null); // Adjust the type according to your profile structure
+    const [loading, setLoading] = useState(true);
 
-    const [plans] = await Promise.all([getAllPlans()]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const supabase = supabaseServer();
+            const { data: { session } } = await supabase.auth.getSession();
+            const profiles = await getProfileData(supabase);
+            const plans = await getAllPlans();
+
+            setSession(session);
+            setProfiles(profiles);
+            setPlans(plans);
+            setLoading(false);
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     const showSubscribeButton = !!session && profiles && !profiles?.is_subscribed;
     const showCreateAccountButton = !session;
@@ -92,9 +110,11 @@ const PricingPage = async () => {
                                 <Link href="/auth/login">ログインする</Link>
                             </Button>
                         )}
-                        {showManageSubscription && <Button>
-                            <Link href="/dashboard">サブスクリプションを管理する</Link>
-                            </Button>}
+                        {showManageSubscription && (
+                            <Button size="small" color="primary">
+                                <Link href="/dashboard">サブスクリプションを管理する</Link>
+                            </Button>
+                        )}
                     </CardActions>
                 </Card>
             ))}
