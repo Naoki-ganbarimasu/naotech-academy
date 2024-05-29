@@ -86,9 +86,9 @@ const Home = async () => {
       </div> : 
       <div>
         <Nologin />
-
-      </div>}
-    </div>
+      </div>
+}
+</div>
   );
 };
 

@@ -1,6 +1,7 @@
+import { supabaseServer } from "@/app/utils/supabaseServer";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { supabaseServer } from "@/app/utils/supabaseServer";
+
 
 export async function GET(req: NextRequest) {
     try {

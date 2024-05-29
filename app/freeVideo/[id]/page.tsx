@@ -3,6 +3,7 @@ import { YouTubeEmbed } from "@next/third-parties/google";
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { extractYouTubeVideoId } from "../../utils/extractYoutubeVideoId";
 import { supabaseServer } from '@/app/utils/supabaseServer';
+import { Button } from '@mui/material';
 
 const getDetailLesson = async (
     id: number,
@@ -46,8 +47,9 @@ const WhoDetail = async ({ params }: { params: { id: number } }) => {
             {videoId ? (
                 <YouTubeEmbed height={400} videoid={videoId} />
             ) : (
-                <p>Video not available</p>
+                <p>サブスクリプション会員登録しないとこの動画は見れません。</p>
             )}
+            <Button variant="contained" href='/'>ホームに戻る</Button>
         </div>
     );
 }

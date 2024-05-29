@@ -60,10 +60,10 @@ const PricingPage = async () => {
 
     const showSubscribeButton = !!session && !profiles?.is_subscribed;
     const showCreateAccountButton = !session;
-    const showManageSubscription = !!session && profiles?.is_subscribed;
 
     return (
-        <div className='w-full max-w-3xl flex ml-10 mx-auto py-16 justify-around'>
+        <div>
+            <div className='w-full max-w-3xl flex ml-10 mx-auto py-16 justify-around'>
             {plans.map((plan) => (
                 <Card className='shadow-md' key={plan.id} style={{ margin: '16px' }}>
                     <CardActionArea>
@@ -92,13 +92,14 @@ const PricingPage = async () => {
                                 <Link href="/auth/login">ログインする</Link>
                             </Button>
                         )}
-                        {showManageSubscription && <Button>
-                            <Link href="/dashboard">サブスクリプションを管理する</Link>
-                            </Button>}
                     </CardActions>
                 </Card>
             ))}
         </div>
+        <div>
+            <Button href='/dashboard'>サブスクリプションを管理する</Button>
+        </div>
+    </div>
     );
 };
 
