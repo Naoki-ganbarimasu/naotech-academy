@@ -58,9 +58,9 @@ const PricingPage = async () => {
 
     const [plans] = await Promise.all([getAllPlans()]);
 
-    const showSubscribeButton = !!session && profiles && !profiles?.is_subscribed;
+    const showSubscribeButton = !!session && !profiles?.is_subscribed;
     const showCreateAccountButton = !session;
-    const showManageSubscription = !!session && profiles && profiles?.is_subscribed;
+    const showManageSubscription = !!session && profiles?.is_subscribed;
 
     return (
         <div className='w-full max-w-3xl flex ml-10 mx-auto py-16 justify-around'>

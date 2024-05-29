@@ -37,9 +37,10 @@ const Nologin = () => {
             </ul>
             <ul>
                 <li className="font-bold">※使用の際　以下のテストユーザーを使用してください。</li>
-                <li>サブスクリプション登録済み　email: premiumtester@example.com、pass: 12345</li>
-                <li>サブスクリプション未登録　　email: freetester@example.com、pass: 12345</li>
+                <li>サブスクリプション登録済み　email: premiumtester@example.com、pass: 123456789</li>
+                <li>サブスクリプション未登録　　email: freetester@example.com、pass: 123456789</li>
             </ul>
+            <p>サブスクリプション契約をする場合は</p>
             </div>
             </div>
             </div>
