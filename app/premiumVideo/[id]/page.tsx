@@ -49,7 +49,7 @@ const LessonDetailLesson = async ({ params }: { params: { id: number } }) => {
             ) : (
                 <p>Video not available</p>
             )}
-            <Button variant="contained" href='/'>ホームに戻る</Button>
+            <Button className='items-center' variant="contained" href='/'>ホームに戻る</Button>
         </div>
     );
 }

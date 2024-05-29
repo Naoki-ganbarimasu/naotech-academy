@@ -16,13 +16,13 @@ const Dashboard = async () => {
 
   return (
     <div className='w-full max-w-3xl mx-auto py-16 px-8'>
-      <h1>ユーザー管理ダッシュボード</h1>
+      <h1 className="text-3xl mb-6">ユーザー管理ダッシュボード</h1>
       <div className='mb-3'>
-        {profiles?.is_subscribed ? (
-          <div>プラン契約中: {profiles.interval}</div>
-        ) : (
-          <div>プラン未加入</div>
-        )}
+        {profiles?.is_subscribed ? 
+          `プラン契約中: {profiles.interval}`
+         : 
+          "プラン未加入"
+        }
         <SubscriptionManagementButton />
       </div>
     </div>

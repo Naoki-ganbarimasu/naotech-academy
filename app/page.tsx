@@ -43,6 +43,9 @@ const Home = async () => {
               <Typography variant="h4" component="div" gutterBottom>
                 Lessons
               </Typography>
+              <Typography>
+                ※サブスクリプション会員限定   
+              </Typography>
               <div className="flex justify-center flex-wrap gap-5">
                 {lessons?.map((lesson) => (
                   <Link href={`premiumVideo/${lesson.id}`} key={lesson.id}>
@@ -73,7 +76,7 @@ const Home = async () => {
                           {who.title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          Description goes here
+                          {who.description}
                         </Typography>
                       </CardContent>
                     </Card>

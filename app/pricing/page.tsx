@@ -60,6 +60,7 @@ const PricingPage = async () => {
 
     const showSubscribeButton = !!session && !profiles?.is_subscribed;
     const showCreateAccountButton = !session;
+    const showSubscribeManagementButton = !!session && profiles?.is_subscribed;
 
     return (
         <div>
@@ -69,7 +70,7 @@ const PricingPage = async () => {
                     <CardActionArea>
                         <CardMedia
                             component="img"
-                            style={{ height: 80, width: 'auto' }}
+                            style={{ height: 'auto', width: 'auto' }}
                             image={plan.interval === 'month' ? "/month.jpg" : "/annual.jpg"}
                             alt={`${plan.name} price`}
                         />
@@ -88,16 +89,18 @@ const PricingPage = async () => {
                     <CardActions>
                         {showSubscribeButton && <SubscriptionButton planId={plan.id} />}
                         {showCreateAccountButton && (
-                            <Button size="small" color="primary">
+                            <Button  variant="contained" size="small" color="primary">
                                 <Link href="/auth/login">ログインする</Link>
                             </Button>
+                        )}
+                        {showSubscribeManagementButton && (
+                            <Button variant="contained" href='/dashboard'>サブスクリプションを管理する</Button>
                         )}
                     </CardActions>
                 </Card>
             ))}
         </div>
         <div>
-            <Button href='/dashboard'>サブスクリプションを管理する</Button>
         </div>
     </div>
     );
