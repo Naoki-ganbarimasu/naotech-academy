@@ -19,7 +19,7 @@ const Dashboard = async () => {
       <h1 className="text-3xl mb-6">ユーザー管理ダッシュボード</h1>
       <div className='mb-3'>
         {profiles?.is_subscribed ? 
-          `プラン契約中: {profiles.interval}`
+          `プラン契約中: ${profiles.interval}`
          : 
           "プラン未加入"
         }
