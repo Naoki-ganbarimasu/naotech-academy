@@ -69,15 +69,15 @@ const Navigation = ({
             </div>
           ) : (
             <div className="flex items-center space-x-5">
-            <Button>
+            <button className='template_button' >
               <Link href="/pricing">料金プラン</Link>
-            </Button>
-            <Button>
+            </button>
+            <button className='template_button'>
               <Link href="/auth/login">ログイン</Link>
-            </Button>
-            <Button>
+            </button>
+            <button className='template_button'>
             <Link href="/auth/signup">サインアップ</Link>
-            </Button>
+            </button>
             </div>
           )}
         </div>
