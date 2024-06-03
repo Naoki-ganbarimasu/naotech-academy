@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import type { Session } from '@supabase/auth-helpers-nextjs'
 import type { Database } from '@/lib/database.types'
 import FirstImage from '../components/user_person_profile_avatar_icon_190943.png'
-import { Button, Chip } from '@mui/material'
+import { Chip } from '@mui/material'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 // ナビゲーション
@@ -37,8 +37,8 @@ const Navigation = ({
 
   return (
     <header className="shadow-lg shadow-gray-100">
-      <div className="flex py-4 px-6 border-b border-gray-200">
-        <Link href="/" className="font-bold text-xl cursor-pointer mr-auto">
+      <div className="flex py-6 px-2 border-b border-gray-200">
+        <Link href="/" className="font-bold my-auto text-xl cursor-pointer mr-auto">
           Naotech Academy
         </Link>
 
@@ -69,13 +69,13 @@ const Navigation = ({
             </div>
           ) : (
             <div className="flex items-center space-x-5">
-            <button className='template_button' >
+            <button className='secert_button' >
               <Link href="/pricing">料金プラン</Link>
             </button>
-            <button className='template_button'>
+            <button className='secert_button'>
               <Link href="/auth/login">ログイン</Link>
             </button>
-            <button className='template_button'>
+            <button className='secert_button'>
             <Link href="/auth/signup">サインアップ</Link>
             </button>
             </div>
