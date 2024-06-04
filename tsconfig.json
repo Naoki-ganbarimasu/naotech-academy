@@ -40,7 +40,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/**/*.ts",
-    "app/**/*.tsx" 
+    "src/app/**/*.tsx" 
   ],
   "exclude": [
     "node_modules"
