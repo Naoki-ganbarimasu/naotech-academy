@@ -68,7 +68,7 @@ const Navigation = ({
                 <FiMenu className="sm:hidden text-3xl" />
             </div>
             <div className="menu-items flex text-center" onClick={() => setIsMenuOpen(isMenuOpen)}>
-              <RxCross2 className="sm:hidden text-3xl"/>
+              <RxCross2 className="sm:hidden text-3xl menu-items"/>
               <ul>
                   <li><Link href="/pricing">料金プラン</Link></li>
                   <li><Link href="/auth/login">ログイン</Link></li>
