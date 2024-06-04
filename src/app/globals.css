@@ -1,0 +1,79 @@
+@tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+
+
+
+.template_button {
+  background-color: #467ef7;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.template_button:hover {
+  background-color: #3e6fb0;
+}
+
+.template_button:active {
+  background-color: #0d54af;
+}
+
+.secert_button {
+  background-color: #ffffff;
+  border: none;
+  color: rgb(114, 164, 255);
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.secert_button:hover {
+  background-color: #e2e1e1;
+} 
+
+.secert_button:active {
+  background-color: #0d54af;
+}
+
+.box-shadow {
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+.burger-menu {
+  display: flex;
+  align-items: center;
+}
+
+.burger-icon {
+  cursor: pointer;
+}
+
+.menu-items {
+  display: none;
+}
+
+.menu-items.active {
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .burger-menu {
+    flex-direction: column;
+  }
+
+  .burger-menu.open .menu-items {
+    display: block;
+  }
+}
