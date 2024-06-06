@@ -1,3 +1,63 @@
+# こちらはLesson動画公開アプリケーション、Naotech Academyです。[2024年/5月作成]
+## このアプリを作成に至った経緯
+私は今までプログラミングを独学してきました。そこで何度も何度も挫けそうになって辛い経験をしてきました。私と同じような状況下人で挫折しそうな人、またプログラミングにもモチベーションが沸かない人、私自身のモチベーション上げるために作成しました。この動画を視聴して「こいつも頑張ってるんだな…。俺も頑張ろう！」ってなっていただけたら幸いです。私もこのアプリを活用してインプットした内容を言語化する勉強をしています。
+
+## 使用技術
+言語　: typescript, css/html
+フレームワーク:　react/Next.js, TailwindCSS
+バックエンド(SaaS): Sipabase, Stripe
+
+## 機能
+* auth認証
+  * email認証による新規登録
+  * ログイン、ログアウト
+  * プロフィール編集
+ 
+* サブスクリプション決済機能（テスト環境）
+  * 月額/年額
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
