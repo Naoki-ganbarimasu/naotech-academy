@@ -24,7 +24,7 @@ const SubscriptionManagementButton = () => {
 
     return (
         <div>
-            <Button variant="contained" onClick={loadPortal}>サブスクリプション管理をする</Button>
+            <button className='template_button' onClick={loadPortal}>サブスクリプション管理をする</button>
         </div>
     );
 };

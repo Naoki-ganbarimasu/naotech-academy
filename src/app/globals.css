@@ -16,6 +16,7 @@
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+  border-radius: 12px;
 }
 
 .template_button:hover {
@@ -53,9 +54,10 @@
 }
 .burger-menu {
   display: flex;
-  align-items: center;
-}
+  align-items: right;
 
+  /* align-items: center; */
+}
 .burger-icon {
   cursor: pointer;
 }

@@ -1,4 +1,4 @@
-import Login from '@/src/app/components/login';
+import Login from '@/src/app/components/Login';
 import { supabaseServer } from '@/src/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 

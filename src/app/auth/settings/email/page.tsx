@@ -1,4 +1,4 @@
-import Email from '@/src/app/components/email';
+import Email from '@/src/app/components/Email';
 import { supabaseServer } from '@/src/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 

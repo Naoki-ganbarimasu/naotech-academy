@@ -19,9 +19,9 @@ const SubscriptionButton = ({ planId }: { planId: string }) => {
   };
 
   return (
-    <Button variant="contained" onClick={processSubscription}>
+    <button className='template_button' onClick={processSubscription}>
       サブスクリプション契約をする
-    </Button>
+    </button>
   );
 };
 

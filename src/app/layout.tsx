@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SupabaseListener />
 
         </header>
-          <main className="flex-1 container max-w-screen-sm mx-auto px-1 mt-40">{children}</main>
+          <main className='mt-32'>{children}</main>
 
           <footer className="py-5">
             <div className="text-center text-sm">

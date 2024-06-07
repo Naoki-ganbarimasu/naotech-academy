@@ -1,4 +1,4 @@
-import Logout from '@/src/app/components/logout';
+import Logout from '@/src/app/components/Logout';
 import { supabaseServer } from '@/src/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 

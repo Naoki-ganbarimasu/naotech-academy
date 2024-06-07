@@ -1,7 +1,3 @@
-import { Button, CardActionArea, CardActions } from '@mui/material';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 import Stripe from 'stripe';
@@ -62,39 +58,23 @@ const PricingPage = async () => {
 
     return (
         <div>
-            <div className='w-full max-w-3xl flex ml-10 mx-auto py-16 justify-around'>
+            <div className='grid md:grid-cols-2 sm:grid-cols-1 w-ful mx-6 py-16 justify-around '>
             {plans.map((plan) => (
-                <div className='shadow-md' key={plan.id} >
-                    <CardActionArea>
-                        <CardMedia
-                            component="img"
-                            style={{ height: 'auto', width: 'auto' }}
-                            image={plan.interval === 'month' ? "/month.jpg" : "/annual.jpg"}
-                            alt={`${plan.name} price`}
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h4" component="div">
-                                {plan.name} プラン
-                            </Typography>
-                            <Typography gutterBottom component="div">
-                                {plan.interval}
-                            </Typography>
-                            <Typography variant="h5" color="text.secondary">
-                                {plan.price}/{plan.interval}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
+                <div className="w-auto h-auto gap-5 grid mx-auto border-gray-300 box-shadow transition-transform duration-300 border-2 my-3 mx-3" key={plan.id} >
+                    <img
+                    className="h-auto w-auto rounded  "
+                    src={plan.interval === 'month' ? "/month.jpg" : "/annual.jpg"}
+                    alt={`${plan.name} price`}/>
+                            <h2 className='text-xl'>{plan.name} プラン</h2>
+                            <p>{plan.interval}</p>
+                            <p>{plan.price}/{plan.interval}</p>
                         {showSubscribeButton && <SubscriptionButton planId={plan.id} />}
                         {showCreateAccountButton && (
-                            <Button  variant="contained" size="small" color="primary">
-                                <Link href="/auth/login">ログインする</Link>
-                            </Button>
+                            <Link className='template_button' href="/auth/login">ログインする</Link>
                         )}
                         {showSubscribeManagementButton && (
-                            <Button variant="contained" href='/dashboard'>サブスクリプションを管理する</Button>
+                            <Link className='template_button' href={"/dashboard"}>サブスクリプションを管理する</Link>
                         )}
-                    </CardActions>
                 </div>
             ))}
         </div>

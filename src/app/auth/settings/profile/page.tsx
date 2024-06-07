@@ -1,4 +1,4 @@
-import Profile from '@/src/app/components/profile';
+import Profile from '@/src/app/components/Profile';
 import { redirect } from 'next/navigation';
 
 import { supabaseServer } from '@/src/utils/supabaseServer';
