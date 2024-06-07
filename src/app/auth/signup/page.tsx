@@ -1,4 +1,4 @@
-import Signup from '@/src/app/components/Signup';
+import Signup from '@/src/app/components/Signupa';
 import { redirect } from 'next/navigation';
 
 import { supabaseServer } from '@/src/utils/supabaseServer';

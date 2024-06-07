@@ -2,7 +2,7 @@ import { Database } from '@/lib/database.types';
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 import { supabaseServer } from '../utils/supabaseServer';
-import Nologin from './components/Nologin';
+import Nologin from './components/Nologina';
 
 const getAllLessons = async (supabase: SupabaseClient<Database>) => {
   const { data: lessons, error: lessonsError } = await supabase.from('lesson').select('*');

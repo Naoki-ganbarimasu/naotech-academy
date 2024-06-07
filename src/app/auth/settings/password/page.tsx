@@ -1,4 +1,4 @@
-import Password from '@/src/app/components/Password';
+import Password from '@/src/app/components/Passworda';
 import { supabaseServer } from '@/src/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 
