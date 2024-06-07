@@ -1,6 +1,5 @@
 import { Database } from '@/lib/database.types';
 import { supabaseServer } from '@/src/utils/supabaseServer';
-import { Button } from '@mui/material';
 import { YouTubeEmbed } from "@next/third-parties/google";
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { extractYouTubeVideoId } from "../../../utils/extractYoutubeVideoId";
