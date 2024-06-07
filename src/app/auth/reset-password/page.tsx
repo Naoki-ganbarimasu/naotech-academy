@@ -1,4 +1,4 @@
-import ResetPassword from '@/src/app/components/Reset-passworda';
+import ResetPassword from '@/src/app/components/Reset-password';
 import { supabaseServer } from '@/src/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 

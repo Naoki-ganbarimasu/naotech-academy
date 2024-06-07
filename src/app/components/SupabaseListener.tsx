@@ -1,7 +1,7 @@
 'use server'
 
 import { supabaseServer } from '../../utils/supabaseServer';
-import Navigation from './Navigationa';
+import Navigation from './Navigation';
 
 // 認証状態の監視
 const SupabaseListener = async () => {
