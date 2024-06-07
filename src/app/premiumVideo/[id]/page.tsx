@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import { YouTubeEmbed } from "@next/third-parties/google";
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { extractYouTubeVideoId } from "../../../utils/extractYoutubeVideoId";
+import Link from 'next/link';
 
 const getDetailLesson = async (
     id: number,
@@ -49,7 +50,7 @@ const LessonDetailLesson = async ({ params }: { params: { id: number } }) => {
             ) : (
                 <p>Video not available</p>
             )}
-            <Button className='items-center' variant="contained" href='/'>ホームに戻る</Button>
+            <Link className='template_button' href='/'>ホームに戻る</Link>
         </div>
     );
 }

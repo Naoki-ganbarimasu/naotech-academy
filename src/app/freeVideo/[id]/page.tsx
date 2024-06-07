@@ -1,9 +1,9 @@
 import { Database } from '@/lib/database.types';
 import { supabaseServer } from '@/src/utils/supabaseServer';
-import { Button } from '@mui/material';
 import { YouTubeEmbed } from "@next/third-parties/google";
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { extractYouTubeVideoId } from "../../../utils/extractYoutubeVideoId";
+import Link from 'next/link';
 
 const getDetailLesson = async (
     id: number,
@@ -49,7 +49,7 @@ const WhoDetail = async ({ params }: { params: { id: number } }) => {
             ) : (
                 <p>サブスクリプション会員登録しないとこの動画は見れません。</p>
             )}
-            <Button variant="contained" href='/'>ホームに戻る</Button>
+            <Link className='template_button' href='/'>ホームに戻る</Link>
         </div>
     );
 }
