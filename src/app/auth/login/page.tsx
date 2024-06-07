@@ -1,6 +1,6 @@
-import Login from '@/src/app/components/Login';
 import { supabaseServer } from '@/src/utils/supabaseServer';
 import { redirect } from 'next/navigation';
+import Login from '../../components/Login';
 
 // ログインページ
 const LoginPage = async () => {
