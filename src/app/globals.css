@@ -3,10 +3,29 @@
   @tailwind utilities;
 
 
+.open_button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+} 
 
+.open_button:hover {
+  background-color: #a6a6a69c;
+}
+
+.open_button:active {
+  background-color: #8f8f8f;
+}
 
 .template_button {
-  background-color: #467ef7;
+  background-color: #97aaff99;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -45,7 +64,7 @@
 } 
 
 .secert_button:active {
-  background-color: #0d54af;
+  background-color: #bcbcbc;
 }
 
 .box-shadow {

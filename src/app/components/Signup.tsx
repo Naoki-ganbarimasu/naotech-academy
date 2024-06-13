@@ -21,9 +21,10 @@ const schema = z.object({
 // サインアップページ
 const Signup = () => {
   const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
+  const supabase = createClientComponentClient<Database>();
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
   const {
     register,
@@ -40,6 +41,8 @@ const Signup = () => {
   // 送信
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     setLoading(true)
+    setMessage('')
+    setIsSuccessMessage(false)
 
     try {
       // サインアップ
@@ -74,6 +77,7 @@ const Signup = () => {
       setMessage(
         '本登録用のURLを記載したメールを送信しました。メールをご確認の上、メール本文中のURLをクリックして、本登録を行ってください。'
       )
+      setIsSuccessMessage(true)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
@@ -138,7 +142,16 @@ const Signup = () => {
         </div>
       </form>
 
-      {message && <div className="my-5 text-center text-sm text-red-500">{message}</div>}
+      {message && (
+        <div
+          className={`my-5 text-center text-sm ${
+            isSuccessMessage ? 'text-green-500' : 'text-red-500'
+          }`}
+        >
+          {message}
+        </div>
+      )}
+
 
       <div className="text-center text-sm">
         <Link href="/auth/login" className="text-gray-500 font-bold">
