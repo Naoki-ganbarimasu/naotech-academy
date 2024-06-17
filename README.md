@@ -10,6 +10,11 @@
 フレームワーク:　react/Next.js, TailwindCSS
 バックエンド(SaaS): Sipabase, Stripe
 
+## tester
+email: testuser@example.com
+pass:  1234567890
+
+
 ## 機能
 * auth認証
   * email認証による新規登録
