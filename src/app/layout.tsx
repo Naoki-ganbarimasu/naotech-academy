@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SupabaseListener />
  
         </header>
-          <main className='mt-24 bg-gray-100 w-full h-full'>{children}</main>
+          <main className='mt-28 bg-white w-full h-full'>{children}</main>
 
           <footer className="py-5 bottom-0 bg-gray-100 ">
             <div className="w-full text-center text-sm">

@@ -45,7 +45,7 @@ const WhoDetail = async ({ params }: { params: { id: number } }) => {
             <h1 className='text-3xl mb-6'>{lesson?.title}</h1>
             <p className='mb-6'>{lesson?.description}</p>
             {videoId ? (
-                <YouTubeEmbed height={400} videoid={videoId} />
+                <YouTubeEmbed height={400} videoid={videoId}/>
             ) : (
                 <p>サブスクリプション会員登録しないとこの動画は見れません。</p>
             )}

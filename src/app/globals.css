@@ -25,7 +25,7 @@
 }
 
 .template_button {
-  background-color: #97aaff99;
+  background-color: #01b966;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -39,11 +39,11 @@
 }
 
 .template_button:hover {
-  background-color: #3e6fb0;
+  background-color: #00cb47;
 }
 
 .template_button:active {
-  background-color: #0d54af;
+  background-color: #0ba600;
 }
 
 .secert_button {
@@ -98,3 +98,7 @@
     display: block;
   }
 }
+/* 
+.sm_text {
+  text-size
+} */

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { supabaseServer } from '../utils/supabaseServer';
 import Nologin from './components/Nologin';
 
+
 const getAllLessons = async (supabase: SupabaseClient<Database>) => {
   const { data: lessons, error: lessonsError } = await supabase.from('lesson').select('*');
   const { data: whos, error: whosError } = await supabase.from('who').select('*');
@@ -54,8 +55,6 @@ const Home = async () => {
                 ))}
               </div>
             </div>
-
-
             <div>
             北島直樹の趣味の世界   
             </div>  
@@ -75,8 +74,9 @@ const Home = async () => {
         </main>
         </div>
       :
-      <div>
+      <div>        
         <Nologin />
+
       </div>}
     </div>
   );
