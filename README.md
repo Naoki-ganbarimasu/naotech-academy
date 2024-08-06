@@ -1,4 +1,4 @@
-# こちらはLesson動画公開アプリケーション、Naotech Academyです。[2024年/5月作成]
+# こちらはLesson動画公開アプリケーション、[Naotech Academy](https://naotech-academy.vercel.app)です。[2024年/5月作成]
 ## このアプリの詳細
 Webサイト作成するために必要な知識を学べるコンテンツを動画で配信してます.サブスクリプション登録することでLesson動画を視聴できるようなアプリケーションです。
 
