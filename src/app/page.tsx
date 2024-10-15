@@ -55,24 +55,6 @@ const Home = async () => {
                 ))}
               </div>
             </div>
-            <div>
-            北島直樹の趣味の世界   
-            </div>  
-            <div className="xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5  grid">
-              {whos?.map((who) => (
-                <Link  href={`freeVideo/${who.id}`} key={who.id}>
-                  <div className="w-80 h-64 mx-auto my-4 border-2 border-gray-300 box-shadow overflow-hidden transform transition-transform duration-300 hover:scale-105">
-                    <article className="text-wrap">
-                      <h2 className="text-3xl font-semibold mb-4 mt-4">{who.title}</h2>
-                      <p className="text-gray-500 text-ms text-left px-3" >{who.description}</p>
-                    </article>
-                  </div>
-                </Link>
-                ))}
-              </div>
-            </div>
-        </main>
-        </div>
       :
       <div>        
         <Nologin />
