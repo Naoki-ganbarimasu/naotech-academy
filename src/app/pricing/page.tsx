@@ -1,4 +1,4 @@
-import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { SupabaseClient, Session } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 import Stripe from 'stripe';
 import { GetServerSideProps } from 'next';
@@ -13,10 +13,16 @@ interface Plan {
   currency: string;
 }
 
+interface Profile {
+  id: string;
+  is_subscribed: boolean;
+  // 他の必要なフィールドを追加
+}
+
 interface Props {
   plans: Plan[];
-  session: any; // セッションの型を適切に定義してください
-  profile: any; // プロフィールの型を適切に定義してください
+  session: Session | null;
+  profile: Profile | null;
 }
 
 const getAllPlans = async (): Promise<Plan[]> => {
@@ -40,20 +46,22 @@ const getAllPlans = async (): Promise<Plan[]> => {
   return sortedPlans;
 };
 
-const getProfileData = async (supabase: SupabaseClient) => {
-  const { data: profiles, error } = await supabase.from('profiles').select('*');
+const getProfileData = async (
+  supabase: SupabaseClient,
+  userId: string
+): Promise<Profile | null> => {
+  const { data: profile, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', userId)
+    .single();
 
   if (error) {
     console.error('Error fetching profile data:', error);
     return null;
   }
 
-  if (!profiles || profiles.length === 0) {
-    console.error('No profiles found');
-    return null;
-  }
-
-  return profiles[0];
+  return profile as Profile;
 };
 
 const PricingPage = ({ plans, session, profile }: Props) => {
@@ -102,8 +110,21 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  const profile = await getProfileData(supabase);
+
   const plans = await getAllPlans();
+
+  if (!session) {
+    return {
+      props: {
+        plans,
+        session: null,
+        profile: null,
+      },
+    };
+  }
+
+  const userId = session.user.id;
+  const profile = await getProfileData(supabase, userId);
 
   return {
     props: {
