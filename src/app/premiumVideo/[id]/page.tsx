@@ -47,7 +47,7 @@ const LessonDetailLesson = async ({ params }: { params: { id: number } }) => {
             {videoId ? (
                 <YouTubeEmbed height={400} videoid={videoId} />
             ) : (
-                <p>Video not available</p>
+                <p>この講座は作成中です。今しばらくおまちください。</p>
             )}
             <Link className='template_button' href='/'>ホームに戻る</Link>
         </div>
