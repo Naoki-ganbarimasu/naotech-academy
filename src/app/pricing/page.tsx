@@ -24,7 +24,7 @@ const getAllPlans = async (): Promise<Plan[]> => {
   if (!stripeSecretKey) {
     throw new Error('STRIPE_SECRET_KEY is not defined');
   }
-  const stripe = new Stripe(stripeSecretKey, { apiVersion: '2022-11-15' });
+  const stripe = new Stripe(stripeSecretKey);
   const plansList = await stripe.prices.list({ expand: ['data.product'] });
 
   const plans = plansList.data.map((plan) => ({
