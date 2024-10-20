@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '@/src/lib/database.types'; // 適切なパスに修正
+import { Database } from '@/lib/database.types';
 import { cookies } from 'next/headers';
 
 export async function POST(
