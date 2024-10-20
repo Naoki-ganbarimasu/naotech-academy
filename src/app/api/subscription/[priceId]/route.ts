@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 import { cookies } from 'next/headers';
 
@@ -20,15 +20,15 @@ export async function POST(
     );
   }
 
-  // リクエストから Supabase クライアントを作成
-  const supabase = createServerSupabaseClient<Database>({ headers: req.headers, cookies });
+  // Supabase クライアントの作成
+  const supabase = createRouteHandlerClient<Database>({ cookies });
   const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+    data: { session },
+    error: sessionError,
+  } = await supabase.auth.getSession();
 
-  if (userError || !user) {
-    console.error('User not authenticated:', userError);
+  if (sessionError || !session) {
+    console.error('User not authenticated:', sessionError);
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
@@ -36,7 +36,7 @@ export async function POST(
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
     .select('stripe_customer')
-    .eq('id', user.id)
+    .eq('id', session.user.id)
     .single();
 
   if (profileError || !profile?.stripe_customer) {
@@ -50,12 +50,10 @@ export async function POST(
   const priceId = params.priceId;
 
   // Stripe インスタンスの作成
-  const stripe = new Stripe(stripeSecretKey, {
-    apiVersion: '2022-11-15',
-  });
+  const stripe = new Stripe(stripeSecretKey);
 
   try {
-    const session = await stripe.checkout.sessions.create({
+    const sessionStripe = await stripe.checkout.sessions.create({
       customer: profile.stripe_customer,
       mode: 'subscription',
       payment_method_types: ['card'],
@@ -64,7 +62,7 @@ export async function POST(
       cancel_url: `${baseUrl}/payment/cancelled`,
     });
 
-    return NextResponse.json({ id: session.id });
+    return NextResponse.json({ id: sessionStripe.id });
   } catch (error) {
     console.error('Stripe session creation failed:', error);
     return NextResponse.json(
@@ -73,4 +71,3 @@ export async function POST(
     );
   }
 }
-

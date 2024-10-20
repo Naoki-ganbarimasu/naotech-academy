@@ -1,35 +1,37 @@
 export const dynamic = 'force-dynamic';
 
-import { supabaseServer } from "@/src/utils/supabaseServer";
-import { NextResponse } from "next/server";
-import Stripe from "stripe";
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { NextResponse } from 'next/server';
+import Stripe from 'stripe';
+import { cookies } from 'next/headers';
+import { Database } from '@/lib/database.types';
 
 export async function GET() {
   try {
-    const supabase = supabaseServer();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
 
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: `Unauthorized: ${authError?.message || "No user found"}` },
-        { status: 401 }
-      );
+    const supabase = createRouteHandlerClient<Database>({ cookies });
+
+    const {
+      data: { session },
+      error: sessionError,
+    } = await supabase.auth.getSession();
+
+    if (sessionError || !session) {
+      console.error('User not authenticated:', sessionError);
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     const { data: profileData, error: profileError } = await supabase
-      .from("profiles")
-      .select("stripe_customer")
-      .eq("id", user.id)
+      .from('profiles')
+      .select('stripe_customer')
+      .eq('id', session.user.id)
       .single();
 
     if (profileError || !profileData?.stripe_customer) {
       return NextResponse.json(
         {
           error: `Profile error: ${
-            profileError?.message || "Stripe customer ID not found"
+            profileError?.message || 'Stripe customer ID not found'
           }`,
         },
         { status: 400 }
@@ -37,19 +39,18 @@ export async function GET() {
     }
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: "2024-04-10",
     });
 
-    const session = await stripe.billingPortal.sessions.create({
+    const sessionStripe = await stripe.billingPortal.sessions.create({
       customer: profileData.stripe_customer,
       return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
     });
 
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: sessionStripe.url });
   } catch (error: any) {
-    console.error("Error loading portal:", error);
+    console.error('Error loading portal:', error);
     return NextResponse.json(
-      { error: error.message || "Internal Server Error" },
+      { error: error.message || 'Internal Server Error' },
       { status: 500 }
     );
   }
