@@ -1,7 +1,6 @@
 import { SupabaseClient, Session } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 import Stripe from 'stripe';
-import { GetServerSideProps } from 'next';
 import { supabaseServer } from '../../utils/supabaseServer';
 import SubscriptionButton from '../components/checkout/SubscriptionButton';
 
@@ -19,11 +18,6 @@ interface Profile {
   // 他の必要なフィールドを追加
 }
 
-interface Props {
-  plans: Plan[];
-  session: Session | null;
-  profile: Profile | null;
-}
 
 const getAllPlans = async (): Promise<Plan[]> => {
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
@@ -64,7 +58,22 @@ const getProfileData = async (
   return profile as Profile;
 };
 
-const PricingPage = ({ plans, session, profile }: Props) => {
+
+const PricingPage = async () => {
+  const supabase = supabaseServer();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const plans = await getAllPlans();
+
+  let profile: Profile | null = null;
+
+  if (session) {
+    const userId = session.user.id;
+    profile = await getProfileData(supabase, userId);
+  }
+
   const showSubscribeButton = !!session && !profile?.is_subscribed;
   const showCreateAccountButton = !session;
   const showSubscribeManagementButton = !!session && profile?.is_subscribed;
@@ -105,35 +114,4 @@ const PricingPage = ({ plans, session, profile }: Props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const supabase = supabaseServer();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  const plans = await getAllPlans();
-
-  if (!session) {
-    return {
-      props: {
-        plans,
-        session: null,
-        profile: null,
-      },
-    };
-  }
-
-  const userId = session.user.id;
-  const profile = await getProfileData(supabase, userId);
-
-  return {
-    props: {
-      plans,
-      session,
-      profile,
-    },
-  };
-};
-
 export default PricingPage;
-
