@@ -45,7 +45,6 @@ const uploadFile = (auth: OAuth2Client) => {
     fields: 'id'
   }, (err: Error | null, file: any) => {
     if (err) {
-      // Handle error
       console.error(err);
     } else {
       console.log('File Id: ', file.id);

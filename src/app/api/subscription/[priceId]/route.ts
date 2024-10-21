@@ -8,7 +8,6 @@ export async function POST(
   req: NextRequest,
   { params }: { params: { priceId: string } }
 ) {
-  // 環境変数の確認
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -20,7 +19,6 @@ export async function POST(
     );
   }
 
-  // Supabase クライアントの作成
   const supabase = createRouteHandlerClient<Database>({ cookies });
   const {
     data: { session },
@@ -32,7 +30,6 @@ export async function POST(
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
-  // ユーザーの Stripe Customer ID を取得
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
     .select('stripe_customer')
@@ -49,7 +46,6 @@ export async function POST(
 
   const priceId = params.priceId;
 
-  // Stripe インスタンスの作成
   const stripe = new Stripe(stripeSecretKey);
 
   try {

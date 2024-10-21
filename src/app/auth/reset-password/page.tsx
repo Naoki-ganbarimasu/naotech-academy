@@ -1,22 +1,19 @@
-import ResetPassword from '@/src/app/components/Reset-password';
-import { supabaseServer } from '@/src/utils/supabaseServer';
-import { redirect } from 'next/navigation';
+import ResetPassword from "@/src/app/components/Reset-password";
+import { supabaseServer } from "@/src/utils/supabaseServer";
+import { redirect } from "next/navigation";
 
-// パスワードリセットページ
 const ResetPasswordPage = async () => {
   const supabase = supabaseServer();
- 
-  // セッションの取得
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
 
-  // 認証している場合、リダイレクト
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
+
   if (session) {
-    redirect('/')
+    redirect("/");
   }
 
-  return <ResetPassword />
-}
+  return <ResetPassword />;
+};
 
-export default ResetPasswordPage
+export default ResetPasswordPage;

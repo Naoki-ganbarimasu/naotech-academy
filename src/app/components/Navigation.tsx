@@ -12,7 +12,6 @@ import { RxCross2 } from "react-icons/rx";
 
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
-// ナビゲーション
 const Navigation = ({
   session,
   profile,
@@ -24,7 +23,6 @@ const Navigation = ({
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // 状態管理にユーザー情報を保存
   useEffect(() => {
     setUser({
       id: session ? session.user.id : '',

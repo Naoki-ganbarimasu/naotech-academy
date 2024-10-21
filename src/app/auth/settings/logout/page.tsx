@@ -1,22 +1,19 @@
-import Logout from '@/src/app/components/Logout';
-import { supabaseServer } from '@/src/utils/supabaseServer';
-import { redirect } from 'next/navigation';
+import Logout from "@/src/app/components/Logout";
+import { supabaseServer } from "@/src/utils/supabaseServer";
+import { redirect } from "next/navigation";
 
-// ログアウトページ
 const LogoutPage = async () => {
   const supabase = supabaseServer();
 
-  // セッションの取得
   const {
-    data: { session },
-  } = await supabase.auth.getSession()
+    data: { session }
+  } = await supabase.auth.getSession();
 
-  // 未認証の場合、リダイレクト
   if (!session) {
-    redirect('/auth/login')
+    redirect("/auth/login");
   }
 
-  return <Logout />
-}
+  return <Logout />;
+};
 
-export default LogoutPage
+export default LogoutPage;

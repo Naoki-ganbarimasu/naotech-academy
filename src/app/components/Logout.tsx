@@ -39,7 +39,7 @@ const Logout = () => {
   }
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="text-center mb-5">ログアウトしますか？</div>
       {/* ログアウトボタン */}
       <form onSubmit={onSubmit}>
@@ -49,7 +49,7 @@ const Logout = () => {
           ) : (
             <button
               type="submit"
-              className="font-bold bg-red-500 hover:brightness-95 w-full rounded-full p-2 text-white text-sm"
+              className="font-bold bg-red-500 hover:brightness-95 px-32 rounded-full p-2 text-white text-sm"
             >
               ログアウト
             </button>
@@ -57,9 +57,11 @@ const Logout = () => {
         </div>
       </form>
 
-      {message && <div className="my-5 text-center text-sm text-red-500">{message}</div>}
+      {message && (
+        <div className="my-5 text-center text-sm text-red-500">{message}</div>
+      )}
     </div>
-  )
+  );
 }
 
 export default Logout

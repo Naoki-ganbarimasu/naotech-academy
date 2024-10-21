@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Stripe from 'stripe';
 import { supabaseServer } from '../../utils/supabaseServer';
 import SubscriptionButton from '../components/checkout/SubscriptionButton';
+import Image from 'next/image';
 
 interface Plan {
   id: string;
@@ -15,7 +16,6 @@ interface Plan {
 interface Profile {
   id: string;
   is_subscribed: boolean;
-  // 他の必要なフィールドを追加
 }
 
 
@@ -86,16 +86,20 @@ const PricingPage = async () => {
             className="w-auto h-auto gap-5 grid mx-auto border-gray-300 box-shadow transition-transform duration-300 border-2 my-3 mx-3"
             key={plan.id}
           >
-            <img
+            <Image
               className="h-auto w-auto rounded"
-              src={plan.interval === 'month' ? '/month.jpg' : '/annual.jpg'}
+              src={plan.interval === 'month' ? '/month.jpg' : '/year.jpg'}
               alt={`${plan.name} price`}
+              width={400}
+              height={400}
             />
+            <div className='ml-5'>
             <h2 className="text-xl">{plan.name} プラン</h2>
             <p>{plan.interval}</p>
             <p>
-              {plan.price}/{plan.interval}
+              {plan.price}円/{plan.interval}
             </p>
+            </div>
             {showSubscribeButton && <SubscriptionButton planId={plan.id} />}
             {showCreateAccountButton && (
               <Link className="template_button" href="/auth/login">

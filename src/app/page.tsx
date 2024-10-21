@@ -18,12 +18,10 @@ const getAllLessons = async (supabase: SupabaseClient<Database>) => {
   return { lessons, whos };
 };
 
-// メインページ
 const Home = async () => {
   const supabase = supabaseServer();
   const { lessons, whos } = await getAllLessons(supabase);
 
-  // セッションの取得
   const {
     data: { session },
   } = await supabase.auth.getSession();

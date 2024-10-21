@@ -64,7 +64,7 @@ const Login = () => {
   }
 
   return (
-    <div className="max-w-[400px] mx-auto">
+    <div className="max-w-[400px] mx-auto min-h-screen">
       <div className="text-center font-bold text-xl mb-10">ログイン</div>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* メールアドレス */}
@@ -74,9 +74,11 @@ const Login = () => {
             className="border rounded-md w-full py-2 px-3 focus:outline-none focus:border-sky-500"
             placeholder="メールアドレス"
             id="email"
-            {...register('email', { required: true })}
+            {...register("email", { required: true })}
           />
-          <div className="my-3 text-center text-sm text-red-500">{errors.email?.message}</div>
+          <div className="my-3 text-center text-sm text-red-500">
+            {errors.email?.message}
+          </div>
         </div>
 
         {/* パスワード */}
@@ -86,9 +88,11 @@ const Login = () => {
             className="border rounded-md w-full py-2 px-3 focus:outline-none focus:border-sky-500"
             placeholder="パスワード"
             id="password"
-            {...register('password', { required: true })}
+            {...register("password", { required: true })}
           />
-          <div className="my-3 text-center text-sm text-red-500">{errors.password?.message}</div>
+          <div className="my-3 text-center text-sm text-red-500">
+            {errors.password?.message}
+          </div>
         </div>
 
         {/* ログインボタン */}
@@ -106,7 +110,9 @@ const Login = () => {
         </div>
       </form>
 
-      {message && <div className="my-5 text-center text-sm text-red-500">{message}</div>}
+      {message && (
+        <div className="my-5 text-center text-sm text-red-500">{message}</div>
+      )}
 
       <div className="text-center text-sm mb-5">
         <Link href="/auth/reset-password" className="text-gray-500 font-bold">
@@ -120,7 +126,7 @@ const Login = () => {
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
 export default Login
