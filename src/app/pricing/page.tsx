@@ -97,7 +97,7 @@ const PricingPage = async () => {
             <h2 className="text-xl">{plan.name} プラン</h2>
             <p>{plan.interval}</p>
             <p>
-              {plan.price}円/{plan.interval}
+              💲{plan.price}/{plan.interval}
             </p>
             </div>
             {showSubscribeButton && <SubscriptionButton planId={plan.id} />}
