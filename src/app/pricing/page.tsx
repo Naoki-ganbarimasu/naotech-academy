@@ -1,9 +1,9 @@
-import { SupabaseClient, Session } from '@supabase/auth-helpers-nextjs';
-import Link from 'next/link';
-import Stripe from 'stripe';
-import { supabaseServer } from '../../utils/supabaseServer';
-import SubscriptionButton from '../components/checkout/SubscriptionButton';
-import Image from 'next/image';
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import Image from "next/image";
+import Link from "next/link";
+import Stripe from "stripe";
+import { supabaseServer } from "../../utils/supabaseServer";
+import SubscriptionButton from "../components/checkout/SubscriptionButton";
 
 interface Plan {
   id: string;
@@ -18,24 +18,25 @@ interface Profile {
   is_subscribed: boolean;
 }
 
-
 const getAllPlans = async (): Promise<Plan[]> => {
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeSecretKey) {
-    throw new Error('STRIPE_SECRET_KEY is not defined');
+    throw new Error("STRIPE_SECRET_KEY is not defined");
   }
   const stripe = new Stripe(stripeSecretKey);
-  const plansList = await stripe.prices.list({ expand: ['data.product'] });
+  const plansList = await stripe.prices.list({ expand: ["data.product"] });
 
   const plans = plansList.data.map((plan) => ({
     id: plan.id,
     name: (plan.product as Stripe.Product).name,
     price: plan.unit_amount ? (plan.unit_amount / 100).toFixed(2) : null,
     interval: plan.recurring?.interval ?? null,
-    currency: plan.currency,
+    currency: plan.currency
   }));
 
-  const sortedPlans = plans.sort((a, b) => parseFloat(a.price!) - parseFloat(b.price!));
+  const sortedPlans = plans.sort(
+    (a, b) => parseFloat(a.price!) - parseFloat(b.price!)
+  );
 
   return sortedPlans;
 };
@@ -45,24 +46,23 @@ const getProfileData = async (
   userId: string
 ): Promise<Profile | null> => {
   const { data: profile, error } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', userId)
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
     .single();
 
   if (error) {
-    console.error('Error fetching profile data:', error);
+    console.error("Error fetching profile data:", error);
     return null;
   }
 
   return profile as Profile;
 };
 
-
 const PricingPage = async () => {
   const supabase = supabaseServer();
   const {
-    data: { session },
+    data: { session }
   } = await supabase.auth.getSession();
 
   const plans = await getAllPlans();
@@ -88,17 +88,17 @@ const PricingPage = async () => {
           >
             <Image
               className="h-auto w-auto rounded"
-              src={plan.interval === 'month' ? '/month.jpg' : '/year.jpg'}
+              src={plan.interval === "month" ? "/month.jpg" : "/year.jpg"}
               alt={`${plan.name} price`}
               width={400}
               height={400}
             />
-            <div className='ml-5'>
-            <h2 className="text-xl">{plan.name} プラン</h2>
-            <p>{plan.interval}</p>
-            <p>
-              💲{plan.price}/{plan.interval}
-            </p>
+            <div className="ml-5">
+              <h2 className="text-xl">{plan.name} プラン</h2>
+              <p>{plan.interval}</p>
+              <p>
+                💲{plan.price}/{plan.interval}
+              </p>
             </div>
             {showSubscribeButton && <SubscriptionButton planId={plan.id} />}
             {showCreateAccountButton && (

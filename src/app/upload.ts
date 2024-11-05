@@ -1,6 +1,6 @@
-import readline from 'readline';
-import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
+import { google } from 'googleapis';
+import readline from 'readline';
 
 const CLIENT_ID = 'YOUR CLIENT ID HERE';
 const CLIENT_SECRET = 'YOUR CLIENT SECRET HERE';
